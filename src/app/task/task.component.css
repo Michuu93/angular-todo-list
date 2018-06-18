@@ -1,0 +1,38 @@
+#delete-button {
+  color: white;
+  opacity: 0.8;
+}
+
+#add-button {
+  color: white;
+}
+
+.mat-line {
+  color: white;
+  text-shadow: 0 0 4px black;
+}
+
+mat-list-item {
+  margin: 0 0 1px 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-list, .mat-nav-list, .mat-selection-list {
+  padding-top: 0;
+}
+
+.content {
+  margin: 20px 0 0 0;
+}
+
+.mat-form-field {
+  margin: 0 16px;
+  width: 100%;
+}
+
+#titleInput {
+  width: 100%;
+}

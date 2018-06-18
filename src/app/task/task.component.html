@@ -1,0 +1,40 @@
+<div class="content">
+  <mat-nav-list>
+    <mat-list-item [ngStyle]="{backgroundColor: group.value}">
+
+      <mat-button-toggle-group #group="matButtonToggleGroup" value={{Priority.low}}>
+        <mat-button-toggle value={{Priority.low}}>
+          <mat-icon [ngStyle]="{color: Priority.low}">fiber_manual_record</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value={{Priority.normal}}>
+          <mat-icon [ngStyle]="{color: Priority.normal}">fiber_manual_record</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value={{Priority.high}}>
+          <mat-icon [ngStyle]="{color: Priority.high}">fiber_manual_record</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <mat-form-field>
+        <input matInput #titleInput>
+      </mat-form-field>
+
+      <!--<span class="spacer"></span>-->
+
+      <button mat-icon-button (click)="addItem(group.value, titleInput.value); titleInput.value=''">
+        <mat-icon id="add-button">add</mat-icon>
+      </button>
+
+    </mat-list-item>
+  </mat-nav-list>
+
+
+  <mat-nav-list dnd-sortable-container [sortableData]="itemsList" on-mouseleave="hoveredIndex=null">
+    <mat-list-item *ngFor="let item of itemsList; let i = index" dnd-sortable [sortableIndex]="i"
+                   on-mouseover="hoveredIndex=i" [ngStyle]="{backgroundColor: item.getPriority().valueOf()}">
+      <a matLine>{{item.getTitle()}}</a>
+      <button *ngIf="i === hoveredIndex" mat-icon-button (click)="deleteItem(item)">
+        <mat-icon id="delete-button">delete_outline</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-nav-list>
+</div>
