@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
@@ -8,6 +8,7 @@ import {AppComponent} from './app.component';
 import {MenuComponent} from './menu/menu.component';
 import {ItemsComponent} from './items/items.component';
 import {LoginComponent} from './login/login.component';
+import {DndModule} from 'ng2-dnd';
 
 @NgModule({
   declarations: [
@@ -20,9 +21,12 @@ import {LoginComponent} from './login/login.component';
     BrowserModule,
     FormsModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DndModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    Title
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

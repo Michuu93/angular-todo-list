@@ -1,17 +1,25 @@
 export class TodoItem {
-  title: string;
-  description: string;
+  private title: string;
+  private position: number;
+  private color: string;
 
-  constructor(title: string, description: string) {
+  constructor(position: number, title: string, color: string) {
+    this.position = position;
     this.title = title || '';
-    this.description = description || '';
+    this.color = color || 'green';
+  }
+
+  getPosition(): number {
+    return this.position;
   }
 
   getTitle(): string {
     return this.title;
   }
 
-  getDescription(): string {
-    return this.description;
+  getColor(): string {
+    return this.color;
   }
+
+
 }
