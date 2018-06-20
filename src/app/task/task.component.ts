@@ -14,6 +14,7 @@ export class TaskComponent {
   @ViewChild(MatButtonToggleGroup) prioritySelect: MatButtonToggleGroup;
   @ViewChild('titleInput', {read: ElementRef}) titleInput: ElementRef;
   Priority = Priority;
+  hoveredIndex: string;
 
   constructor() {
     this.itemsList = <Array<TodoItem>> JSON.parse(localStorage.getItem('tasks')) || [];
