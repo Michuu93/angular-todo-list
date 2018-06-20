@@ -7,15 +7,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {TaskComponent} from './task/task.component';
-import {LoginComponent} from './login/login.component';
 import {DndModule} from 'ng2-dnd';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    TaskComponent,
-    LoginComponent
+    TaskComponent
   ],
   imports: [
     BrowserModule,

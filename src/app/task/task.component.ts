@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Output, ViewChild} from '@angular/core';
 import {TodoItem} from './model/task.model';
 import {Priority} from './enum/priority.enum';
+import {MatButtonToggleGroup} from '@angular/material';
 
 @Component({
   selector: 'app-tasks',
@@ -8,28 +9,30 @@ import {Priority} from './enum/priority.enum';
   styleUrls: ['./task.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskComponent implements OnInit {
-  itemsList: Array<TodoItem> = [
-    new TodoItem(Priority.low, 'item1'),
-    new TodoItem(Priority.high, 'item2'),
-    new TodoItem(Priority.normal, 'item3'),
-    new TodoItem(Priority.normal, 'item4')
-  ];
+export class TaskComponent {
+  @Output() itemsList: Array<TodoItem>;
+  @ViewChild(MatButtonToggleGroup) prioritySelect: MatButtonToggleGroup;
+  @ViewChild('titleInput', {read: ElementRef}) titleInput: ElementRef;
   Priority = Priority;
 
   constructor() {
-  }
-
-  ngOnInit() {
+    this.itemsList = <Array<TodoItem>> JSON.parse(localStorage.getItem('tasks')) || [];
   }
 
   deleteItem(item: TodoItem) {
-    if (confirm('Are you sure to delete \"' + item.getTitle() + '\" ?')) {
+    if (confirm('Are you sure to delete \"' + item.title + '\" ?')) {
       this.itemsList.splice(this.itemsList.indexOf(item), 1);
+      this.saveToLocalStorage();
     }
   }
 
-  addItem(priority: Priority, title: string) {
-    this.itemsList.push(new TodoItem(priority, title));
+  addItem() {
+    this.itemsList.push(new TodoItem(this.prioritySelect.value, this.titleInput.nativeElement.value));
+    this.saveToLocalStorage();
+  }
+
+  saveToLocalStorage() {
+    localStorage.clear();
+    localStorage.setItem('tasks', JSON.stringify(this.itemsList));
   }
 }
