@@ -1,4 +1,4 @@
-import {BrowserModule, Title} from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
@@ -8,6 +8,7 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {TaskComponent} from './task/task.component';
 import {DndModule} from 'ng2-dnd';
+import {TaskService} from './task/task.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import {DndModule} from 'ng2-dnd';
     DndModule.forRoot()
   ],
   providers: [
-    Title
+    TaskService
   ],
   bootstrap: [AppComponent]
 })

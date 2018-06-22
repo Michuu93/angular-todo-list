@@ -5,6 +5,7 @@
 
 #add-button {
   color: white;
+  flex: initial;
 }
 
 .mat-line {
@@ -30,9 +31,10 @@ mat-list-item {
 
 .mat-form-field {
   margin: 0 16px;
-  width: 100%;
+  flex: 1;
+  color: white;
 }
 
-#titleInput {
-  width: 100%;
+mat-button-toggle-group {
+  flex: initial;
 }

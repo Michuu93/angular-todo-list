@@ -1,7 +1,8 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Output, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TodoItem} from './model/task.model';
 import {Priority} from './enum/priority.enum';
 import {MatButtonToggleGroup} from '@angular/material';
+import {TaskService} from './task.service';
 
 @Component({
   selector: 'app-tasks',
@@ -9,31 +10,35 @@ import {MatButtonToggleGroup} from '@angular/material';
   styleUrls: ['./task.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskComponent {
-  @Output() itemsList: Array<TodoItem>;
+export class TaskComponent implements OnInit {
+  itemsList: Array<TodoItem>;
   @ViewChild(MatButtonToggleGroup) prioritySelect: MatButtonToggleGroup;
   @ViewChild('titleInput', {read: ElementRef}) titleInput: ElementRef;
   Priority = Priority;
   hoveredIndex: string;
 
-  constructor() {
-    this.itemsList = <Array<TodoItem>> JSON.parse(localStorage.getItem('tasks')) || [];
+  constructor(private taskService: TaskService) {
   }
 
-  deleteItem(item: TodoItem) {
+  ngOnInit() {
+    this.itemsList = this.taskService.itemsList;
+    this.taskService.itemsUpdated.subscribe(
+      () => this.itemsList = this.taskService.itemsList
+    );
+  }
+
+  onAddItem() {
+    this.taskService.addItem(new TodoItem(this.prioritySelect.value, this.titleInput.nativeElement.value));
+    this.titleInput.nativeElement.value = '';
+  }
+
+  onDeleteItem(item: TodoItem) {
     if (confirm('Are you sure to delete \"' + item.title + '\" ?')) {
-      this.itemsList.splice(this.itemsList.indexOf(item), 1);
-      this.saveToLocalStorage();
+      this.taskService.deleteItem(item);
     }
   }
 
-  addItem() {
-    this.itemsList.push(new TodoItem(this.prioritySelect.value, this.titleInput.nativeElement.value));
-    this.saveToLocalStorage();
-  }
-
-  saveToLocalStorage() {
-    localStorage.clear();
-    localStorage.setItem('tasks', JSON.stringify(this.itemsList));
+  onDrop() {
+    this.taskService.onDrop();
   }
 }
