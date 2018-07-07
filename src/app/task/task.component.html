@@ -22,7 +22,7 @@
   <mat-nav-list dnd-sortable-container [sortableData]="itemsList" on-mouseleave="hoveredIndex=null">
     <mat-list-item *ngFor="let item of itemsList; let i = index" dnd-sortable (onDropSuccess)="onDrop()"
                    [sortableIndex]="i"
-                   on-mouseover="hoveredIndex=i" [ngStyle]="{backgroundColor: item.priority.valueOf()}">
+                   on-mouseover="hoveredIndex=i" [ngStyle]="{backgroundColor: item.priority.valueOf()}" [@listState]>
       <a matLine>{{item.title}}</a>
       <button *ngIf="i === hoveredIndex" mat-icon-button (click)="onDeleteItem(item)">
         <mat-icon id="delete-button">delete_outline</mat-icon>

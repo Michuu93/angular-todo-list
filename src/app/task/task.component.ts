@@ -4,11 +4,30 @@ import {Priority} from './enum/priority.enum';
 import {MatButtonToggleGroup} from '@angular/material';
 import {TaskService} from './task.service';
 import {Subscription} from 'rxjs';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css'],
+  animations: [
+    trigger('listState', [
+      state('in', style({
+        opacity: 1
+      })),
+      transition('void => *', [
+        style({
+          opacity: 0
+        }),
+        animate(500)]),
+      transition('* => void', [
+        animate(300, style({
+          opacity: 0,
+          transform: 'translateX(200px)'
+        }))
+      ])
+    ])
+  ]
 })
 export class TaskComponent implements OnInit, OnDestroy {
   @ViewChild(MatButtonToggleGroup) prioritySelect: MatButtonToggleGroup;
