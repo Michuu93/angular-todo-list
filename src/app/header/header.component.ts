@@ -12,7 +12,6 @@ export class HeaderComponent {
   onDeleteAll() {
     if (confirm('Are you sure to all tasks?')) {
       this.taskService.deleteAll();
-      this.taskService.itemsUpdated.emit();
     }
   }
 }

@@ -1,9 +1,9 @@
 import {TodoItem} from './model/task.model';
-import {EventEmitter} from '@angular/core';
+import {Subject} from 'rxjs';
 
 export class TaskService {
-  itemsList: Array<TodoItem>;
-  itemsUpdated = new EventEmitter<>();
+  itemsUpdated = new Subject<Array<TodoItem>>();
+  private itemsList: Array<TodoItem>;
 
   constructor() {
     this.itemsList = <Array<TodoItem>> JSON.parse(localStorage.getItem('tasks')) || [];
@@ -24,12 +24,18 @@ export class TaskService {
     this.saveToLocalStorage();
   }
 
-  onDrop() {
+  getItems() {
+    return this.itemsList.slice();
+  }
+
+  setItems(itemsList: Array<TodoItem>) {
+    this.itemsList = itemsList;
     this.saveToLocalStorage();
   }
 
   private saveToLocalStorage() {
     localStorage.clear();
     localStorage.setItem('tasks', JSON.stringify(this.itemsList));
+    this.itemsUpdated.next(this.itemsList.slice());
   }
 }

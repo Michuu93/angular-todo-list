@@ -1,29 +1,30 @@
-import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TodoItem} from './model/task.model';
 import {Priority} from './enum/priority.enum';
 import {MatButtonToggleGroup} from '@angular/material';
 import {TaskService} from './task.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskComponent implements OnInit {
-  itemsList: Array<TodoItem>;
+export class TaskComponent implements OnInit, OnDestroy {
   @ViewChild(MatButtonToggleGroup) prioritySelect: MatButtonToggleGroup;
   @ViewChild('titleInput', {read: ElementRef}) titleInput: ElementRef;
   Priority = Priority;
   hoveredIndex: string;
+  private itemsList: Array<TodoItem>;
+  private subscription: Subscription;
 
   constructor(private taskService: TaskService) {
   }
 
   ngOnInit() {
-    this.itemsList = this.taskService.itemsList;
-    this.taskService.itemsUpdated.subscribe(
-      () => this.itemsList = this.taskService.itemsList
+    this.itemsList = this.taskService.getItems();
+    this.subscription = this.taskService.itemsUpdated.subscribe(
+      () => this.itemsList = this.taskService.getItems()
     );
   }
 
@@ -39,6 +40,10 @@ export class TaskComponent implements OnInit {
   }
 
   onDrop() {
-    this.taskService.onDrop();
+    this.taskService.setItems(this.itemsList);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
