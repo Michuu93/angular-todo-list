@@ -8,7 +8,6 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {TaskComponent} from './task/task.component';
 import {DndModule} from 'ng2-dnd';
-import {TaskService} from './task/task.service';
 
 @NgModule({
   declarations: [
@@ -23,9 +22,7 @@ import {TaskService} from './task/task.service';
     BrowserAnimationsModule,
     DndModule.forRoot()
   ],
-  providers: [
-    TaskService
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

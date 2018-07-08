@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TodoItem} from './model/task.model';
 import {Priority} from './enum/priority.enum';
 import {MatButtonToggleGroup} from '@angular/material';
@@ -37,7 +37,11 @@ export class TaskComponent implements OnInit, OnDestroy {
   private itemsList: Array<TodoItem>;
   private subscription: Subscription;
 
-  constructor(private taskService: TaskService) {
+  constructor(private taskService: TaskService, private cd: ChangeDetectorRef) {
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   ngOnInit() {
@@ -48,8 +52,11 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   onAddItem() {
-    this.taskService.addItem(new TodoItem(this.prioritySelect.value, this.titleInput.nativeElement.value));
-    this.titleInput.nativeElement.value = '';
+    const title = this.titleInput.nativeElement.value;
+    if (title) {
+      this.taskService.addItem(new TodoItem(this.prioritySelect.value, title));
+      this.titleInput.nativeElement.value = '';
+    }
   }
 
   onDeleteItem(item: TodoItem) {

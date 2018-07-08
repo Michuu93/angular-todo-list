@@ -1,9 +1,11 @@
 import {TodoItem} from './model/task.model';
 import {Subject} from 'rxjs';
+import {Injectable} from '@angular/core';
 
+@Injectable({providedIn: 'root'})
 export class TaskService {
-  itemsUpdated = new Subject<Array<TodoItem>>();
   private itemsList: Array<TodoItem>;
+  itemsUpdated = new Subject<Array<TodoItem>>();
 
   constructor() {
     this.itemsList = <Array<TodoItem>> JSON.parse(localStorage.getItem('tasks')) || [];
