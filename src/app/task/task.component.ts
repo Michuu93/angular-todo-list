@@ -34,7 +34,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   @ViewChild('titleInput', {read: ElementRef}) titleInput: ElementRef;
   Priority = Priority;
   hoveredIndex: string;
-  private itemsList: Array<TodoItem>;
+  itemsList: Array<TodoItem>;
   private subscription: Subscription;
 
   constructor(private taskService: TaskService, private cd: ChangeDetectorRef) {
