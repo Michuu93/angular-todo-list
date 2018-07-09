@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TodoItem} from './model/task.model';
 import {Priority} from './enum/priority.enum';
 import {MatButtonToggleGroup} from '@angular/material';
@@ -29,13 +29,13 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ])
   ]
 })
-export class TaskComponent implements OnInit, OnDestroy {
+export class TaskComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatButtonToggleGroup) prioritySelect: MatButtonToggleGroup;
-  @ViewChild('titleInput', {read: ElementRef}) titleInput: ElementRef;
+  @ViewChild('taskDescriptionInput', {read: ElementRef}) titleInput: ElementRef;
+  tasksList: Array<TodoItem>;
+  private tasksUpdatedSubscription: Subscription;
   Priority = Priority;
   hoveredIndex: string;
-  itemsList: Array<TodoItem>;
-  private subscription: Subscription;
 
   constructor(private taskService: TaskService, private cd: ChangeDetectorRef) {
   }
@@ -45,31 +45,31 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.itemsList = this.taskService.getItems();
-    this.subscription = this.taskService.itemsUpdated.subscribe(
-      () => this.itemsList = this.taskService.getItems()
+    this.tasksList = this.taskService.getAllTasks();
+    this.tasksUpdatedSubscription = this.taskService.tasksUpdated.subscribe(
+      () => this.tasksList = this.taskService.getAllTasks()
     );
   }
 
-  onAddItem() {
+  onAddTask() {
     const title = this.titleInput.nativeElement.value;
     if (title) {
-      this.taskService.addItem(new TodoItem(this.prioritySelect.value, title));
+      this.taskService.addTask(new TodoItem(this.prioritySelect.value, title));
       this.titleInput.nativeElement.value = '';
     }
   }
 
-  onDeleteItem(item: TodoItem) {
+  onDeleteTask(item: TodoItem) {
     if (confirm('Are you sure to delete \"' + item.title + '\" ?')) {
-      this.taskService.deleteItem(item);
+      this.taskService.deleteTask(item);
     }
   }
 
-  onDrop() {
-    this.taskService.setItems(this.itemsList);
+  onDropTask() {
+    this.taskService.setTasks(this.tasksList);
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.tasksUpdatedSubscription.unsubscribe();
   }
 }

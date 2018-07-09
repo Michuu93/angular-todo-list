@@ -1,23 +1,15 @@
-#delete-button {
-  color: white;
-}
-
-#add-button {
+button {
   color: white;
   flex: initial;
-}
-
-.mat-line {
-  color: white;
-  text-shadow: 0 0 4px black;
 }
 
 mat-list-item {
   margin: 0 0 1px 0;
 }
 
-.full-width {
-  width: 100%;
+.mat-line {
+  color: white;
+  text-shadow: 0 0 4px black;
 }
 
 .mat-list, .mat-nav-list, .mat-selection-list {
@@ -34,6 +26,4 @@ mat-list-item {
   color: white;
 }
 
-mat-button-toggle-group {
-  flex: initial;
-}
+

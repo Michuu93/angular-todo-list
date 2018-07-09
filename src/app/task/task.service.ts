@@ -4,40 +4,40 @@ import {Injectable} from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class TaskService {
-  private itemsList: Array<TodoItem>;
-  itemsUpdated = new Subject<Array<TodoItem>>();
+  tasksUpdated = new Subject<Array<TodoItem>>();
+  private tasksList: Array<TodoItem>;
 
   constructor() {
-    this.itemsList = <Array<TodoItem>> JSON.parse(localStorage.getItem('tasks')) || [];
+    this.tasksList = <Array<TodoItem>> JSON.parse(localStorage.getItem('tasks')) || [];
   }
 
-  addItem(task: TodoItem) {
-    this.itemsList.push(task);
-    this.saveToLocalStorage();
+  addTask(task: TodoItem) {
+    this.tasksList.push(task);
+    this.saveTasksToLocalStorage();
   }
 
-  deleteItem(item: TodoItem) {
-    this.itemsList.splice(this.itemsList.indexOf(item), 1);
-    this.saveToLocalStorage();
+  deleteTask(item: TodoItem) {
+    this.tasksList.splice(this.tasksList.indexOf(item), 1);
+    this.saveTasksToLocalStorage();
   }
 
-  deleteAll() {
-    this.itemsList = [];
-    this.saveToLocalStorage();
+  deleteAllTasks() {
+    this.tasksList = [];
+    this.saveTasksToLocalStorage();
   }
 
-  getItems() {
-    return this.itemsList.slice();
+  getAllTasks() {
+    return this.tasksList.slice();
   }
 
-  setItems(itemsList: Array<TodoItem>) {
-    this.itemsList = itemsList;
-    this.saveToLocalStorage();
+  setTasks(itemsList: Array<TodoItem>) {
+    this.tasksList = itemsList;
+    this.saveTasksToLocalStorage();
   }
 
-  private saveToLocalStorage() {
+  private saveTasksToLocalStorage() {
     localStorage.clear();
-    localStorage.setItem('tasks', JSON.stringify(this.itemsList));
-    this.itemsUpdated.next(this.itemsList.slice());
+    localStorage.setItem('tasks', JSON.stringify(this.tasksList));
+    this.tasksUpdated.next(this.tasksList.slice());
   }
 }

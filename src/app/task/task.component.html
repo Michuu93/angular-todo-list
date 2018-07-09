@@ -9,28 +9,28 @@
       </mat-button-toggle-group>
 
       <mat-form-field>
-        <input #titleInput matInput (keyup.enter)="onAddItem()">
+        <input #taskDescriptionInput matInput (keyup.enter)="onAddTask()">
       </mat-form-field>
 
-      <button #addBtn mat-icon-button (click)="onAddItem()">
-        <mat-icon id="add-button">add</mat-icon>
+      <button mat-icon-button (click)="onAddTask()">
+        <mat-icon button>add</mat-icon>
       </button>
 
     </mat-list-item>
   </mat-nav-list>
 
-  <mat-nav-list dnd-sortable-container [sortableData]="itemsList" on-mouseleave="hoveredIndex=null">
+  <mat-nav-list dnd-sortable-container [sortableData]="tasksList" on-mouseleave="hoveredIndex=null">
     <mat-list-item
-      *ngFor="let item of itemsList; let i = index"
+      *ngFor="let item of tasksList; let i = index"
       dnd-sortable
-      (onDropSuccess)="onDrop()"
+      (onDropSuccess)="onDropTask()"
       [sortableIndex]="i"
       on-mouseover="hoveredIndex=i"
       [ngStyle]="{backgroundColor: item.priority.valueOf()}"
       [@listState]>
       <a matLine>{{item.title}}</a>
-      <button *ngIf="i === hoveredIndex" mat-icon-button (click)="onDeleteItem(item)">
-        <mat-icon id="delete-button">delete_outline</mat-icon>
+      <button *ngIf="i === hoveredIndex" mat-icon-button (click)="onDeleteTask(item)">
+        <mat-icon button>delete_outline</mat-icon>
       </button>
     </mat-list-item>
   </mat-nav-list>

@@ -9,9 +9,9 @@ export class HeaderComponent {
   constructor(private taskService: TaskService) {
   }
 
-  onDeleteAll() {
-    if (confirm('Are you sure to all tasks?')) {
-      this.taskService.deleteAll();
+  onDeleteAllTasks() {
+    if (confirm('Are you sure to delete all tasks?')) {
+      this.taskService.deleteAllTasks();
     }
   }
 }
